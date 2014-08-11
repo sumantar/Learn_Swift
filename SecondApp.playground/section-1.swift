@@ -21,7 +21,7 @@ age = 10
 
 var ageIncreament = age! * 2
 
-func findIndexOfString(string: String, array: String[]) -> Int?{
+func findIndexOfString(string: String, array: [String]) -> Int?{
     for(index, value) in enumerate(array){
         if value == string{
             return index

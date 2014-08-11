@@ -8,6 +8,15 @@
 
 import UIKit
 
+func sum(n: Int, acc: Int) -> Int {
+    if n == 0 {
+        return acc
+    }
+    else {
+        return sum(n - 1, acc + 1)
+    }
+}
+
 class ViewController: UIViewController {
                             
     override func viewDidLoad() {
@@ -17,6 +26,8 @@ class ViewController: UIViewController {
         
         sayHello(name: "Sumanta", flag: "!!!")
         sayHello(flag: "!!!")
+        
+        let sumRes = sum(5, 1)
     }
 
     override func didReceiveMemoryWarning() {
@@ -26,7 +37,7 @@ class ViewController: UIViewController {
     
     func sample(){
         
-        let possibleLegCount1: Int? = nil
+        let possibleLegCount1: Int? = 1
         let legCount = possibleLegCount1!
         //legCount
         switch legCount{

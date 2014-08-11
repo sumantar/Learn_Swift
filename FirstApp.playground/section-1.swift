@@ -29,13 +29,15 @@ for number in 1...5{
 //Unicode variable name
 
 let wiseWords = "\"Imagination is more important than knowledge\" - Einstein"
-let dollarSign = "\x24"
-let blackHeart = "\u2665"
-let sparklingHeart = "\U0001F496"
+let dollarSign = "\u{24}"
+let blackHeart = "\u{2665}"
+let sparklingHeart = "\u{0001F496}"
 
 let π = 3.14159
 let 你好 = "你好世界"
 let 🐶🐮 = "dogcow"
+
+let 🐥 = "simile"
 
 println(π)
 
@@ -57,7 +59,7 @@ for number in 1...5{
     println("\(number) times 4 is \(number * 4)")
 }
 
-for number in 1..5{
+for number in 1..<5{
     println("\(number) times 4 is \(number * 4)")
 }
 
@@ -101,7 +103,7 @@ else{
     println("Must have moved away")
 }
 
-let possibleLegCount1: Int?
+let possibleLegCount1: Int? = 0
 let legCount = possibleLegCount1!
 legCount
 switch legCount{
@@ -198,6 +200,8 @@ let greetingPrinter = {
     println("Hello World")
 }
 
+greetingPrinter()
+
 // we can define an argument and return values
 let greetingPrinter1:()->() = {
     println("Hello World")
@@ -206,13 +210,13 @@ let greetingPrinter1:()->() = {
 greetingPrinter1()
 
 func repeat(count: Int, task:()->()){
-    for i in 0..count{
+    for i in 0..<count{
         task()
     }
 }
 
 repeat(2, {
-    println("Hello World!!!!")
+    println("Hello World**!!!!")
     })
 
 //Trailing closure
@@ -467,7 +471,7 @@ extension Size {
 //
 /////////////////////////////////////
 class Stack<T>{
-    var elements = T[]()
+    var elements = [T]()
     func push(element: T){
         elements.append(element)
     }

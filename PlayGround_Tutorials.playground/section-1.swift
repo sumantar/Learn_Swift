@@ -15,6 +15,10 @@ In file inspector, we can perform below settings
     b) Relative to playground - This is good if we checkin the playground and resource into source controll repository
     c) Inside playground: RMC to platground file in finder and select "Show Package Content". Create a folder as Resources
 
+Playgrounds now only support loading resources via NSBundle and related API if they are stored inside of the playground document; the “Absolute Path” and “Relative to Playground” resource path options are no longer supported. (Other files stored in ~/Documents/Shared Playground Data are also accessible using standard path- or URL-based file loading API.
+
+
+
 To show Timeline:
 view-> "Assistant Editor" -> "Show Assistant Editor"
 */
@@ -35,12 +39,13 @@ Why to use playground?
 
 //Timeline
 var string = "Hello" + " " + "World"
-for i in 0..10{
+for i in 0..<10{
     string += "\(i)"
 }
+
 string
 
-for i in 0..20{
+for i in 0..<20{
     var j = i % 4
 }
 
@@ -60,7 +65,7 @@ Below are the list of suppoted types in playground
 
 */
 var str = "Hello, playground"
-for k in 0..100{
+for k in 0..<100{
     k * k
 }
 
@@ -72,7 +77,7 @@ let color = UIColor.redColor()
 
 let attrStr = NSAttributedString(string: str, attributes: [NSForegroundColorAttributeName: color, NSFontAttributeName: UIFont.systemFontOfSize(42)])
 
-var user:String = "1.png"
+var user:String = "11.png"
 
 var image = UIImage(named:user)
 
@@ -103,19 +108,19 @@ for i in 0..20{
 data
 */
 var data = [55, 29, 98, 24, 81, 73, 37, 73, 13, 78, 3, 92, 11, 87, 47, 53, 89, 53, 77, 73]
-func exchange<T>(data: T[], i: Int, j: Int ){
+func exchange<T>(inout data: [T], i: Int, j: Int ){
     let temp = data[i]
     data[i] = data[j]
     data[j] = temp
 }
 
-exchange(data, 0, 2)
+exchange(&data, 0, 2)
 data
 
-func swapLeft<T: Comparable>(data: T[], index: Int){
+func swapLeft<T: Comparable>(inout data: [T], index: Int){
     for i in reverse(1...index){
         if data[i] < data[i-1]{
-            exchange(data, i, i-1)
+            exchange(&data, i, i-1)
         }
         else{
             break
@@ -123,13 +128,13 @@ func swapLeft<T: Comparable>(data: T[], index: Int){
     }
 }
 
-func iSort<T: Comparable>(data: T[]){
-    for i in 1..data.count{
-        swapLeft(data, i)
+func iSort<T: Comparable>(inout data: [T]){
+    for i in 1..<data.count{
+        swapLeft(&data, i)
     }
 }
 
-iSort(data)
+iSort(&data)
 
 data
 

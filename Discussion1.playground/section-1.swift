@@ -298,7 +298,7 @@ Swift: Identity Operators
     b. Not identical to (!==)
 **********************************/
 
-var pt:Point[] = [Point(x: 100, y: 200), Point(x: 10, y: 20)]
+var pt:[Point] = [Point(x: 100, y: 200), Point(x: 10, y: 20)]
 var p: Point = pt[0]
 
 for pointData in pt{
