@@ -483,6 +483,536 @@ default:
 }
 // prints "(1, 2) is near the origin.”
 
+/*
+Special protocols implemented by Apple
+
+LogicValue
+Printable
+Sequence
+IntegerLiteralConvertable
+FloatLiteralConvertable
+StringLiteralConvertable
+ArrayLiteralConvertable
+DictionaryLiteralConvertable
+
+
+Type casting: 'is' & 'as'
+if item is Song
+
+Any
+
+Unlike arithmetic operators in C, arithmetic operators in Swift do not overflow by default. Overflow behavior is trapped and reported as an error.
+
+To opt in to overflow behavior, use Swift’s second set of arithmetic operators that overflow by default, such as the overflow addition operator (&+). All of these overflow operators begin with an ampersand (&)
+
+var willOverflow = UInt8.max // willOverflow equals 255, which is the largest value a UInt8 can hold
+willOverflow = willOverflow &+ 1 // willOverflow is now equal to 0”
+
+var willUnderflow = UInt8.min // willUnderflow equals 0, which is the smallest value a UInt8 can hold
+willUnderflow = willUnderflow &- 1 // willUnderflow is now equal to 255
+
+let x = 1
+let y = x &/ 0 // y is equal to 0
+============================================================================================================================================================
+
+
+Bitwise operator: 
+~ : bitwise NOT
+let initialBits: UInt8 = 0b00001111
+let invertedBits = ~initialBits  // equals 11110000
+
+& : bitwise AND
+let firstSixBits: UInt8 = 0b11111100
+let lastSixBits: UInt8  = 0b00111111
+let middleFourBits = firstSixBits & lastSixBits  // equals 00111100
+
+| : bitwise OR
+let someBits: UInt8 = 0b10110010
+let moreBits: UInt8 = 0b01011110
+let combinedbits = someBits | moreBits  // equals 11111110
+
+^ : bitwise XOR
+let firstBits: UInt8 = 0b00010100
+let otherBits: UInt8 = 0b00000101
+let outputBits = firstBits ^ otherBits  // equals 00010001
+
+>> and << : bitwise Shift
+let shiftBits: UInt8 = 4   // 00000100 in binary
+shiftBits << 1             // 00001000
+shiftBits << 2             // 00010000
+shiftBits << 5             // 10000000
+shiftBits << 6             // 00000000
+shiftBits >> 2             // 00000001
+
+================================================================================================================================================================
+Swift gives you the freedom to define your own custom infix, prefix, postfix, and assignment operators, with custom precedence and associativity values
+
+Operator over loading.
+Operator function: Classes or structure can have their own implementation of existing operator.
+
+Example: + operator
+
+It should be defined as a global function
+
+*/
+
+class Vector2D {
+    var x = 0.0, y = 0.0
+    init(x: Double, y: Double){
+        self.x = x
+        self.y = y
+    }
+}
+
+@infix func + (left: Vector2D, right: Vector2D) -> Vector2D {
+    return Vector2D(x: left.x + right.x, y: left.y + right.y)
+}
+
+let vector = Vector2D(x: 3.0, y: 1.0)
+let anotherVector = Vector2D(x: 2.0, y: 4.0)
+let combinedVector = vector + anotherVector
+
+
+@prefix func - (vector: Vector2D) -> Vector2D {
+    return Vector2D(x: -vector.x, y: -vector.y)
+}
+
+let positive = Vector2D(x: 3.0, y: 4.0)
+let negative = -positive
+
+let alsoPositive = -negative
+
+/*
+Assignment operator: with the @assignment attribute. You must also mark a compound assignment operator’s left input parameter as <<inout>>, because the parameter’s value will be modified directly from within the operator function
+
+*/
+@assignment func += (inout left: Vector2D, right: Vector2D) {
+    left = left + right
+}
+
+var original = Vector2D(x: 1.0, y: 2.0)
+let vectorToAdd = Vector2D(x: 3.0, y: 4.0)
+original += vectorToAdd
+
+
+@prefix @assignment func ++ (inout vector: Vector2D) -> Vector2D {
+    vector += Vector2D(x: 1.0, y: 1.0)
+    return vector
+}
+
+var toIncrement = Vector2D(x: 3.0, y: 4.0)
+let afterIncrement = ++toIncrement
+
+//Equivalence operator
+@infix func == (left: Vector2D, right: Vector2D) -> Bool {
+    return (left.x == right.x) && (left.y == right.y)
+}
+
+@infix func != (left: Vector2D, right: Vector2D) -> Bool {
+    return !(left == right)
+}
+
+let twoThree = Vector2D(x: 2.0, y: 3.0)
+let anotherTwoThree = Vector2D(x: 2.0, y: 3.0)
+if twoThree == anotherTwoThree {
+    println("These two vectors are equivalent.")
+}
+
+
+
+/*
+Custom operators
+New operators are declared at a global level using the operator keyword, and can be declared as prefix, infix or postfix:
+
+operator prefix +++ {}
+
+Custom infix operators can also specify a precedence and an associativity
+The possible values for associativity are left, right, and none
+
+Operator precedence gives some operators higher priority than others; these operators are calculated first
+Operator associativity defines how operators of the same precedence are grouped together (or associated)—either grouped from the left, or grouped from the right
+
+
+The associativity value defaults to none if it is not specified. The precedence value defaults to 100 if it is not specified.
+
+*/
+
+operator prefix +++ {}
+
+@prefix @assignment func +++ (inout vector: Vector2D) -> Vector2D {
+    vector += vector
+    return vector
+}
+
+var toBeDoubled = Vector2D(x: 1.0, y: 4.0)
+let afterDoubling = +++toBeDoubled
+
+
+operator infix +- { associativity left precedence 140 }//Defining the custom precedence
+
+func +- (left: Vector2D, right: Vector2D) -> Vector2D {
+    return Vector2D(x: left.x + right.x, y: left.y - right.y)
+}
+
+let firstVector = Vector2D(x: 1.0, y: 2.0)
+let secondVector = Vector2D(x: 3.0, y: 4.0)
+let plusMinusVector = firstVector +- secondVector
+
+/*
+_ character is used for place hoder. it is used in place of a loop variable
+
+protocol types like Any or Pullable throws away type information. It is great for dynamic polymorphism 
+But, Swift generics, conserve type inforamtion. It is type safe and fast.
+
+*/
+
+//Finding an item in Array
+//func indexOf<T>(sought: T,  inArray array: [T]) -> Int?{
+//    for i in 0..<array.count{
+//        if array[i] == sought{
+//            return i
+//        }
+//    }
+//    
+//    return nil
+//}
+
+/*
+
+Generic Vs. Protocol Constraints
+
+*/
+
+//func indexOf<T: Equatable>(sought: T,  inArray array: [T]) -> Int?{
+//    for i in 0..<array.count{
+//        if array[i] == sought{
+//            return i
+//        }
+//    }
+//    
+//    return nil
+//}
+
+/*
+Generics: 
+inout parameters: The parameter values can be chnaged. We need to pass & in parameter name
+
+Generic types - T: Place holder
+Generic: Type Constranits - example: Dictionay. The type constraints is that all the keys are unique.
+Similarly, we can add such constraints in our own generic implementation:
+
+Syntax: Put a class or protocol constraints after a type parameter name which will be separated by a colon
+//Generic type constraints
+func someFunction<T: SomeClass, U: SomeProtocol>(someT: T, someU: U) {
+// function body goes here
+}
+
+*/
+
+//Find the index of the string array
+func findStringIndex(array: [String], valueToFind: String) -> Int? {
+    for (index, value) in enumerate(array) {
+        if value == valueToFind {
+            return index
+        }
+    }
+    return nil
+}
+
+/*
+//Lets have the generic implementation
+func findIndex<T>(array: [T], valueToFind: T) -> Int?{
+    for(index, value) in enumerate(array){
+        if value == valueToFind{
+            return index
+        }
+    }
+    
+    return nil
+}
+*/
+
+//The above function will generate error: can't compare the custom values
+//Solution: Equatable protocol
+
+/*
+Special protocols implemented by Apple
+
+LogicValue
+Printable
+Sequence
+IntegerLiteralConvertable
+FloatLiteralConvertable
+StringLiteralConvertable
+ArrayLiteralConvertable
+DictionaryLiteralConvertable
+*/
+
+
+func findIndex<T: Equatable>(array: [T], valueToFind: T) -> Int?{
+    for(index, value) in enumerate(array){
+        if value == valueToFind{
+            return index
+        }
+    }
+    
+    return nil
+}
+
+let doubleIndex = findIndex([3.14159, 0.1, 0.25], 9.3)
+let stringIndex = findIndex(["Mike", "Malcolm", "Andrea"], "Andrea")
+
+
+/*
+Associated Types: When defining a protocol, it is sometimes useful to declare one or more associated types as part of the protocol’s definition
+It is specified with a typealias keyword
+
+*/
+
+protocol Container {
+    typealias ItemType
+    mutating func append(item: ItemType)
+    var count: Int { get }
+    subscript(i: Int) -> ItemType { get }
+}
+
+//When we implement the protocol, we can specify the associated type. However, Swifts type inference takes care about it. Hence we can ignore to specify the associated type
+
+struct IntStack: Container {
+    
+    // original IntStack implementation
+    var items = [Int]()
+    
+    mutating func push(item: Int) {
+        items.append(item)
+    }
+    
+    mutating func pop() -> Int {
+        return items.removeLast()
+    }
+    // conformance to the Container protocol. This is not required as Swifts type inference takes care about it.
+    //Hence, we can comment this line
+    //typealias ItemType = Int
+    
+    
+    mutating func append(item: Int) {
+        self.push(item)
+    }
+    
+    var count: Int {
+        return items.count
+    }
+    
+    subscript(i: Int) -> Int {
+        return items[i]
+    }
+}
+
+//Here is a generic implementation
+struct Stack<T>: Container{
+    
+    var items = [T]()
+    
+    mutating func push(item: T){
+        items.append(item)
+    }
+    
+    
+    mutating func pop() -> T {
+        return items.removeLast()
+    }
+    
+    mutating func append(item: T) {
+        self.push(item)
+    }
+    
+    var count: Int {
+    return items.count
+    }
+    
+    subscript(i: Int) -> T {
+        return items[i]
+    }
+}
+
+/*
+As explained type constraints, it will be useful to define a requiement for associated types
+We Can use, where clause for this.
+
+*/
+func allItemsMatch<C1: Container, C2: Container where C1.ItemType == C2.ItemType, C1.ItemType: Equatable> (someContainer: C1, anotherContainer: C2) -> Bool {
+        
+    // check that both containers contain the same number of items
+    if someContainer.count != anotherContainer.count {
+        return false
+    }
+    
+    // check each pair of items to see if they are equivalent
+    for i in 0..<someContainer.count {
+        if someContainer[i] != anotherContainer[i] {
+            return false
+        }
+    }
+    
+    // all items match, so return true
+    return true
+        
+}
+
+
+var stackOfStrings = Stack<String>()
+stackOfStrings.push("uno")
+stackOfStrings.push("dos")
+stackOfStrings.push("tres")
+
+
+var arrayOfStrings = Stack<String>()
+stackOfStrings.push("uno")
+stackOfStrings.push("dos")
+stackOfStrings.push("tres")
+stackOfStrings.push("tres1")
+
+//var arrayOfStrings = ["uno", "dos", "tres"]
+
+if allItemsMatch(stackOfStrings, arrayOfStrings) {
+    println("All items match.")
+    let res = "All items match."
+} else {
+    println("Not all items match.")
+    let res = "Not All items match."
+}
+
+
+/*
+LogicValue: Protocol
+
+The under-the-covers method that Swift uses to turn non-Bool values in booleans for use in if statements is the getLogicValue() method of the LogicValue protocol (which Optional implements):
+
+func hasLogin() -> Bool {
+    return self.credential.getLogicValue()
+}
+*/
+
+/*
+Using protocol value
+we can use 'as' for downcasting
+
+*/
+//func protocolValue(object: Thing){
+//    if let pullableObject = object as Pullable{
+//        //pull it
+//    }
+//    else{
+//        //error
+//    }
+//}
+
+/*
+
+Approximation
+
+*/
+
+//Fibonaci Series: 0,1,1,2,3,5,8,13,
+func fibonaci(n: Int) -> Double{
+    return n < 2 ? Double (n):fibonaci(n-1)+fibonaci(n-2)
+}
+
+let fibo = fibonaci(1)
+//let phi = fibonaci(45)/fibonaci(44)
+
+//Manual memorization
+//This is an example of tail recursion or TOC
+
+var fibonaciMemo = Dictionary<Int, Double>()
+//returns the nth fibonaci number: 0,1,1,2,3,5,8,13,21...
+func fibinaciM(n: Int)->Double{
+    if let result = fibonaciMemo[n]{
+        return result
+    }
+    else{
+        let result = n < 2 ? Double (n):fibinaciM(n-1)+fibinaciM(n-2)
+        fibonaciMemo[n] = result
+        return result
+    }
+}
+
+//let fibiRes = fibinaciM(46)
+//let phi = fibinaciM(45)/fibinaciM(44)
+
+//Automatic memorization using closure
+//let fibonacciAM: (Int)->Double = memoize{
+//    (fibonacciAM, n) in
+//    n < 2 ? Double (n):fibonacciAM(n-1)+fibonacciAM(n-2)
+//}
+
+/*Similarly we can implement similar method to parse a plist file, returning a NSString type*/
+
+//Lets implement this function that takes ONE parameter
+/*
+func memoize<T: Hashable, U>(body: (T)->U ) -> (T)->U{
+    var memo = Dictionary<T,U>()
+    return { x in
+        if let q = memo[x]{ return q }
+        let r = body(x)
+        memo[x] = r
+        return r
+    }
+}
+
+var factorial: (Int)->Int = {$0}
+factorial = memoize{x in x == 0 ? 1:x*factorial(x - 1)}
+let fact = factorial(3)
+*/
+//Lets implement this function that takes TWO parameter
+func memoize<T: Hashable, U>( body: ( (T)->U, T )->U ) -> (T)->U {
+    var memo = Dictionary<T, U>()
+    var result: ((T)->U)!
+    result = { x in
+        if let q = memo[x] { return q }
+        let r = body(result, x)
+        memo[x] = r
+        return r
+    }
+    return result
+}
+
+let fibonacci = memoize {
+    fibonacci, n in
+    n < 2 ? Double(n) : fibonacci(n-1) + fibonacci(n-2)
+}
+
+//let finalRes = fibonacci(45)/fibonacci(44)
+
+let factorial = memoize { factorial, x in x == 0 ? 1 : x * factorial(x - 1) }
+let finalResult = factorial(3)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

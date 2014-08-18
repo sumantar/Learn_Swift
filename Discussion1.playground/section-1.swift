@@ -620,7 +620,7 @@ res.sort{ $0 < $1 }
 randomArray
 
 let constantArray = [5, 1, 6, 4, 2, 3]
-constantArray.sort{ $1 < $0 }
+constantArray.sort{ $1 < $0}
 constantArray
 
 
