@@ -12,6 +12,9 @@
 		DEBD623B195884C30066408C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEBD6239195884C30066408C /* Main.storyboard */; };
 		DEBD623D195884C30066408C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEBD623C195884C30066408C /* Images.xcassets */; };
 		DEBD6249195884C30066408C /* Swift_SampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBD6248195884C30066408C /* Swift_SampleTests.swift */; };
+		DEFC676219A5F29B002AE05F /* Note_ObjC_Swift_Interop.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEFC676119A5F29B002AE05F /* Note_ObjC_Swift_Interop.swift */; };
+		DEFC676419A6187D002AE05F /* Note1_LLDB_REPL.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEFC676319A6187D002AE05F /* Note1_LLDB_REPL.swift */; };
+		DEFE7A4019A4E2EF00387B28 /* MyObjcClass.m in Sources */ = {isa = PBXBuildFile; fileRef = DEFE7A3F19A4E2EF00387B28 /* MyObjcClass.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +37,11 @@
 		DEBD6242195884C30066408C /* Swift_SampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Swift_SampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEBD6247195884C30066408C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DEBD6248195884C30066408C /* Swift_SampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift_SampleTests.swift; sourceTree = "<group>"; };
+		DEFC676119A5F29B002AE05F /* Note_ObjC_Swift_Interop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note_ObjC_Swift_Interop.swift; sourceTree = "<group>"; };
+		DEFC676319A6187D002AE05F /* Note1_LLDB_REPL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note1_LLDB_REPL.swift; sourceTree = "<group>"; };
+		DEFE7A3919A4E1FC00387B28 /* Swift_Sample-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Swift_Sample-Bridging-Header.h"; sourceTree = "<group>"; };
+		DEFE7A3E19A4E2EF00387B28 /* MyObjcClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyObjcClass.h; sourceTree = "<group>"; };
+		DEFE7A3F19A4E2EF00387B28 /* MyObjcClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyObjcClass.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,11 +83,16 @@
 		DEBD6232195884C30066408C /* Swift_Sample */ = {
 			isa = PBXGroup;
 			children = (
+				DEFC676119A5F29B002AE05F /* Note_ObjC_Swift_Interop.swift */,
+				DEFC676319A6187D002AE05F /* Note1_LLDB_REPL.swift */,
 				DEBD6235195884C30066408C /* AppDelegate.swift */,
 				DEBD6237195884C30066408C /* ViewController.swift */,
 				DEBD6239195884C30066408C /* Main.storyboard */,
 				DEBD623C195884C30066408C /* Images.xcassets */,
 				DEBD6233195884C30066408C /* Supporting Files */,
+				DEFE7A3919A4E1FC00387B28 /* Swift_Sample-Bridging-Header.h */,
+				DEFE7A3E19A4E2EF00387B28 /* MyObjcClass.h */,
+				DEFE7A3F19A4E2EF00387B28 /* MyObjcClass.m */,
 			);
 			path = Swift_Sample;
 			sourceTree = "<group>";
@@ -208,8 +221,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEFE7A4019A4E2EF00387B28 /* MyObjcClass.m in Sources */,
 				DEBD6238195884C30066408C /* ViewController.swift in Sources */,
 				DEBD6236195884C30066408C /* AppDelegate.swift in Sources */,
+				DEFC676219A5F29B002AE05F /* Note_ObjC_Swift_Interop.swift in Sources */,
+				DEFC676419A6187D002AE05F /* Note1_LLDB_REPL.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,9 +341,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
 				INFOPLIST_FILE = Swift_Sample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Swift_Sample/Swift_Sample-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -336,9 +356,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
 				INFOPLIST_FILE = Swift_Sample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Swift_Sample/Swift_Sample-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -397,6 +420,7 @@
 				DEBD624E195884C30066408C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DEBD624F195884C30066408C /* Build configuration list for PBXNativeTarget "Swift_SampleTests" */ = {
 			isa = XCConfigurationList;
@@ -405,6 +429,7 @@
 				DEBD6251195884C30066408C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
