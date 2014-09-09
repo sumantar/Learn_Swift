@@ -68,7 +68,7 @@ for (animalName, legCount) in numberOfLegs{
 }
 
 var shoppingList = ["eggs", "milk"]
-shoppingList += "flour"
+shoppingList += ["flour"]
 shoppingList += ["cheese", "butter", "chocolate spread"]
 shoppingList[0] = "six eggs"
 shoppingList
@@ -96,7 +96,7 @@ else{
 
 var neighbors = ["Alex", "Anna", "Madission", "Dave"]
 let index:Int? = 2 //findIndexOfString("Madission",neighbors)
-if index{
+if index != nil{ //optionals can't be used as boolean. test it for ' != nil' instead
     println("Hello, \(neighbors[index!])")
 }
 else{
@@ -112,12 +112,12 @@ case 0:
     println("")
 case 1:
     println("")
-//default:
-//    println("")
-    //switch must be exhaustive, consider adding a default clause
+case 1...3: //Pattern Matching
+    println("")
 default:
     println("")
 }
+//switch must be exhaustive, consider adding a default clause
 
 //With switch we can have a matching object
 /*
@@ -275,7 +275,7 @@ let des11 = someVehicle1.description
 
 class Car: Vehicle{
     var speed:Double = 0.0
-    init(){
+    override init(){
         super.init()
         numberOfWheels = 4
     }
@@ -338,6 +338,8 @@ struct Rect{
 var point = Point(x: 0.0, y: 0.0)
 var size = Size(width: 640.0, height: 480.0)
 var rect = Rect(origin: point, size: size)
+
+
 
 ///////////////////////////////////
 //  Enumeration - 
