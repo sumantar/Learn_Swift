@@ -274,7 +274,9 @@ Swift identifies it through Mangled Name concept
 
 
 
-
+func hello3(){
+    
+}
 
 
 
