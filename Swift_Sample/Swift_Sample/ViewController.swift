@@ -15,7 +15,6 @@ class ViewController: UIViewController {
         
         let objCObject:MyObjcClass = MyObjcClass()
         objCObject.someProperty = "Hello World"
-        //NSLog("%s", objCObject.someProperty)
         println(objCObject.someProperty)
         objCObject.someMethod()
     }
