@@ -42,7 +42,7 @@ class APIController{
     
     func httpGetRequest(path: String){
         
-        let url: NSURL = NSURL(string: path)
+        let url: NSURL = NSURL(string: path)!
         
         //Create a session object
         let session = NSURLSession.sharedSession()

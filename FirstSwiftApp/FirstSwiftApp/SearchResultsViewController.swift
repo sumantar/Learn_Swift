@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchResultsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol {
+class SearchResultsViewController: UIViewController, UITableViewDelegate, APIControllerProtocol {
     
     let kCellIdentifier: String = "SearchResultCell"
     @IBOutlet weak var tableView: UITableView!
@@ -72,7 +72,7 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
         
         if(image == nil){
             
-            let imgURL: NSURL = NSURL(string: urlString)
+            let imgURL: NSURL = NSURL(string: urlString)!
             let request: NSURLRequest = NSURLRequest(URL: imgURL)
             
             NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler: {(response: NSURLResponse!,data: NSData!,error: NSError!) -> Void in
@@ -107,7 +107,7 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
         }
         
         //let formattedPrice: NSString = rowData["formattedPrice"] as NSString
-        cell.detailTextLabel.text = formattedPrice
+        cell.detailTextLabel!.text = formattedPrice
         
         return cell
     }
@@ -154,9 +154,9 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
 
     
     //Prepare Segue
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         var detailsViewController: DetailsViewController = segue.destinationViewController as DetailsViewController
-        let selectedIndex = self.tableView!.indexPathForSelectedRow().row
+        let selectedIndex = self.tableView!.indexPathForSelectedRow()!.row
         detailsViewController.albumItem = self.albums[selectedIndex]
     }
 }

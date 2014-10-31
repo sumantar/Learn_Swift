@@ -10,7 +10,7 @@ import UIKit
 import MediaPlayer
 import QuartzCore
 
-class DetailsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, APIControllerProtocol {
+class DetailsViewController: UIViewController, UITableViewDelegate, APIControllerProtocol {
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var albumCover: UIImageView!
@@ -30,7 +30,7 @@ class DetailsViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         titleLabel.text = self.albumItem?.title
-        albumCover.image = UIImage(data: NSData(contentsOfURL: NSURL(string: self.albumItem!.largeImageURL)))
+        albumCover.image = UIImage(data: NSData(contentsOfURL: NSURL(string: self.albumItem!.largeImageURL)!)!)
         
         if self.albumItem != nil{
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true

@@ -489,10 +489,140 @@ var stringStack = Stack<String>()
 stringStack.push("Hello World")
 let lastStrIn = stringStack.pop()
 
+//Tuples
+
+let tup = ("Hello", "Hi")
+let tup1 = ("Hello", "Hi", 1)
+let emptyTup: () = ()
+
+let arr = ["Hello", "Hi"] //Array
+
+//let tipAndTotal = (4.00, 25.19)
+
+let tipAndTotal:(Double, Double) = (4.00, 25.19)
+tipAndTotal.0
+tipAndTotal.1
+
+let (theTipAmt, theTotal) = tipAndTotal
+theTipAmt
+theTotal
 
 
+//let tipAndTotalNamed = (tipAmt:4.00, total:25.19)
+let tipAndTotalNamed:(tipAmt:Double, total:Double) = (4.00, 25.19)
+tipAndTotalNamed.tipAmt
+tipAndTotalNamed.total
+
+//Protocols
+
+/*
+protocol Speaker {
+    func Speak()
+}
+*/
+
+//optional protocol.
+//must prefix the protocol with the @objc tag (even if the class is not interoperating with objective-C)
+@objc protocol Speaker {
+    func speak()
+    optional func tellJokes()
+}
+
+//Confirming the protocol
+class Sumanta: Speaker {
+    func speak() {
+        println("Hello, I am Sumanta!")
+    }
+    func tellJokes() {
+        println("Q: What did Sushi A say to Sushi B?")
+    }
+}
+
+//Confirming the protocol
+class Rout: Speaker {
+    func speak() {
+        println("Yo, I am Rout!")
+    }
+    func tellJokes() {
+        println("Q: Whats the object-oriented way to become wealthy?")
+    }
+    //Additional method in this sub-class
+    func writeTutorial() {
+        println("I'm on it!")
+    }
+}
+
+class Animal {
+}
+//Protocol information should be after Base class name. Else compiler will throw error
+class Dog : Animal, Speaker {
+    func speak() {
+        println("Woof!")
+    }
+}
 
 
+//Usage
+var speaker:Speaker
+speaker = Sumanta()
+speaker.speak()
+ //speaker.WriteTutorial() // error!
+//Type casting. We can discuss later
+//(speaker as Rout).writeTutorial()
+speaker = Rout()
+speaker.speak()
+
+speaker.tellJokes?()
+speaker = Dog()
+speaker.tellJokes?()
+
+//This is the optional chaining 
+//if let => optional binding
+
+//Delegates
+
+protocol DateSimulatorDelegate {
+    func dateSimulatorDidStart(sim:DateSimulator, a:Speaker, b:Speaker)
+    func dateSimulatorDidEnd(sim:DateSimulator, a: Speaker, b:Speaker)
+}
+
+class DateSimulator {
+    
+    let a:Speaker
+    let b:Speaker
+    //Since we can't make this as let /immutable, then we should avoid this pattern in our implementation
+    var delegate:DateSimulatorDelegate?
+    
+    init(a:Speaker, b:Speaker) {
+        self.a = a
+        self.b = b
+    }
+    
+    func simulate() {
+        delegate?.dateSimulatorDidStart(self, a:a, b: b)
+        println("Off to dinner...")
+        a.speak()
+        b.speak()
+        println("Walking back home...")
+        a.tellJokes?()
+        b.tellJokes?()
+        delegate?.dateSimulatorDidEnd(self, a:a, b:b)
+    }
+}
+
+class LoggingDateSimulator:DateSimulatorDelegate {
+    func dateSimulatorDidStart(sim:DateSimulator, a:Speaker, b:Speaker) {
+        println("Date started!")
+    }
+    func dateSimulatorDidEnd(sim:DateSimulator, a: Speaker, b: Speaker)  {
+        println("Date ended!")
+    }
+}
+
+//Usage
+let sim = DateSimulator(a:Sumanta(), b:Rout())
+sim.delegate = LoggingDateSimulator()
+sim.simulate()
 
 
 

@@ -69,7 +69,7 @@ for k in 0..<100{
     k * k
 }
 
-let color = UIColor.redColor()
+let color = UIColor.blueColor()
 
 //Static function can be defined as below
 // class func method(arg)->return type

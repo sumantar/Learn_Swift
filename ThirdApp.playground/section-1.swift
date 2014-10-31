@@ -1,15 +1,16 @@
 // Playground - noun: a place where people can play
 
 import UIKit
+import Swift
 
 var str = "Hello, playground"
 
 struct Stack<T> {
     
-    public var stackItems: [T]
+    var stackItems = [T]()
     
     mutating func push(x: T){
-        stackItems += x
+        stackItems.append(x)
     }
     
     mutating func pop() -> T{
@@ -64,6 +65,7 @@ As sequece protocol needs to of type Generator, we need to implement it
 
 */
 
+/*
 struct StackGenerator<T>: Generator{
     
     var items: Slice<T>
@@ -90,7 +92,9 @@ func peekStack(s: Stack<Int>){
     }
 }
 
+*/
 
+/*
 var myStack = Stack<Int>(stackItems: [0])
 
 myStack.push(10)
@@ -99,7 +103,7 @@ myStack.push(30)
 myStack.push(40)
 
 peekStack(myStack)
-
+*/
 /*
 Ref: http://robots.thoughtbot.com/swift-sequences
 

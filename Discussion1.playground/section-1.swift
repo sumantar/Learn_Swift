@@ -152,7 +152,7 @@ var moneyArray = [10,20,45,32]
 //If we don't know about map, then we will use it as follows (dirty way)
 var stringArray: Array<String> = []
 for money in moneyArray{
-    stringArray += "\(money)$"
+    stringArray.append("\(money)$")
 }
 stringArray
 
@@ -186,7 +186,7 @@ In Swift filter is declared as a method on the Array class with signature func f
 var filterArray: Array<Int> = []
 for money in moneyArray{
     if money > 30{
-        filterArray += money
+        filterArray.append(money)
     }
 }
 
@@ -383,9 +383,9 @@ let reversedArray = array.reverse()
 //5. filter
 
 //6. operator +=
-array = [0, 1, 2]
-array += 3
-array += [4, 5, 6]
+//array = [0, 1, 2]
+//array += 3
+//array += [4, 5, 6]
 
 
 
@@ -429,8 +429,8 @@ if let number = string.toInt() {
 //5. Operator
 let combination = "Hello " + "world"
 let exclamationPoint: Character = "!"
-let charCombo = combination + exclamationPoint
-let extremeCombo = exclamationPoint + charCombo
+//var charCombo = combination + exclamationPoint
+//var extremeCombo = exclamationPoint + charCombo
 
 string = "Hello "
 string += "world!"
@@ -619,7 +619,7 @@ var res = randomArray
 res.sort{ $0 < $1 }
 randomArray
 
-let constantArray = [5, 1, 6, 4, 2, 3]
+var constantArray = [5, 1, 6, 4, 2, 3]
 constantArray.sort{ $1 < $0}
 constantArray
 

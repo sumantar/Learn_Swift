@@ -80,7 +80,7 @@ addressNumber = paul.residence?.address?.buildingNumber?.toInt()
 ///////////////////////////////
 // ARC
 // 1. Use strong refernces from owners to the objects they own 
-// 2. Use weak references among objects with independent life time
+// 2. Use weak references among objects with independent life time. Breaking cycles
 // 3. Use unowned references from owned objects with the same life time
 //////////////////////////////
 
@@ -124,8 +124,8 @@ class PersonClass{
     }
 }
 
-var renters = ["Hari": PersonClass()]
-var apts = [507: Apartement()]
+var renters = ["Hari": PersonClass()] //Dictionay
+var apts = [507: Apartement()] //Dictionay
 
 renters["Hari"]!.moveIn(apts[507]!)
 
@@ -142,7 +142,7 @@ if let tenant = apts[507]!.tenant{
 
 var apt = apts[507]!
 
-if apt.tenant{
+if (apt.tenant != nil){
     /*
     apt.tenant!.cashRentCheck()
     apt.tenant!.greet()
@@ -239,7 +239,7 @@ class RaceCar: Car{
         super.init(color: color)
     }
     
-    convenience init(color: Color) {
+    convenience override init(color: Color) {
         self.init(color: color, turbo: true)
     }
     convenience init(){
@@ -431,15 +431,18 @@ for (x, _) in points {
     /* ... */
 }
 
-/*
+
 let color = (1.0, 1.0, 1.0, 1.0)
+
 switch color{
 case (0.0, 0.5...1.0, let blue, _):
-println("----")
+    println("----")
 case let (r, g, b, 1.0) where r == g && g == b:
-println("----")
+    println("----")
+default:
+    println("----");
 }
-*/
+
 
 
 // Enumeration case pattern
@@ -545,6 +548,10 @@ shiftBits << 6             // 00000000
 shiftBits >> 2             // 00000001
 
 ================================================================================================================================================================
+*/
+
+
+/*
 Swift gives you the freedom to define your own custom infix, prefix, postfix, and assignment operators, with custom precedence and associativity values
 
 Operator over loading.
@@ -557,15 +564,15 @@ It should be defined as a global function
 */
 
 class Vector2D {
-    var x = 0.0, y = 0.0
-    init(x: Double, y: Double){
-        self.x = x
-        self.y = y
-    }
+var x = 0.0, y = 0.0
+init(x: Double, y: Double){
+self.x = x
+self.y = y
+}
 }
 
-@infix func + (left: Vector2D, right: Vector2D) -> Vector2D {
-    return Vector2D(x: left.x + right.x, y: left.y + right.y)
+func + (left: Vector2D, right: Vector2D) -> Vector2D {
+return Vector2D(x: left.x + right.x, y: left.y + right.y)
 }
 
 let vector = Vector2D(x: 3.0, y: 1.0)
@@ -573,8 +580,8 @@ let anotherVector = Vector2D(x: 2.0, y: 4.0)
 let combinedVector = vector + anotherVector
 
 
-@prefix func - (vector: Vector2D) -> Vector2D {
-    return Vector2D(x: -vector.x, y: -vector.y)
+prefix func - (vector: Vector2D) -> Vector2D {
+return Vector2D(x: -vector.x, y: -vector.y)
 }
 
 let positive = Vector2D(x: 3.0, y: 4.0)
@@ -586,8 +593,8 @@ let alsoPositive = -negative
 Assignment operator: with the @assignment attribute. You must also mark a compound assignment operator’s left input parameter as <<inout>>, because the parameter’s value will be modified directly from within the operator function
 
 */
-@assignment func += (inout left: Vector2D, right: Vector2D) {
-    left = left + right
+func += (inout left: Vector2D, right: Vector2D) {
+left = left + right
 }
 
 var original = Vector2D(x: 1.0, y: 2.0)
@@ -595,27 +602,29 @@ let vectorToAdd = Vector2D(x: 3.0, y: 4.0)
 original += vectorToAdd
 
 
-@prefix @assignment func ++ (inout vector: Vector2D) -> Vector2D {
-    vector += Vector2D(x: 1.0, y: 1.0)
-    return vector
+///
+
+prefix func ++ (inout vector: Vector2D) -> Vector2D {
+vector += Vector2D(x: 1.0, y: 1.0)
+return vector
 }
 
 var toIncrement = Vector2D(x: 3.0, y: 4.0)
 let afterIncrement = ++toIncrement
 
 //Equivalence operator
-@infix func == (left: Vector2D, right: Vector2D) -> Bool {
-    return (left.x == right.x) && (left.y == right.y)
+func == (left: Vector2D, right: Vector2D) -> Bool {
+return (left.x == right.x) && (left.y == right.y)
 }
 
-@infix func != (left: Vector2D, right: Vector2D) -> Bool {
-    return !(left == right)
+func != (left: Vector2D, right: Vector2D) -> Bool {
+return !(left == right)
 }
 
 let twoThree = Vector2D(x: 2.0, y: 3.0)
 let anotherTwoThree = Vector2D(x: 2.0, y: 3.0)
 if twoThree == anotherTwoThree {
-    println("These two vectors are equivalent.")
+println("These two vectors are equivalent.")
 }
 
 
@@ -637,26 +646,32 @@ The associativity value defaults to none if it is not specified. The precedence 
 
 */
 
-operator prefix +++ {}
 
-@prefix @assignment func +++ (inout vector: Vector2D) -> Vector2D {
-    vector += vector
-    return vector
+
+prefix operator +++ {}
+
+prefix func +++ (inout vector: Vector2D) -> Vector2D {
+vector += vector
+return vector
 }
 
 var toBeDoubled = Vector2D(x: 1.0, y: 4.0)
 let afterDoubling = +++toBeDoubled
 
 
-operator infix +- { associativity left precedence 140 }//Defining the custom precedence
+infix operator +- { associativity left precedence 140 }//Defining the custom precedence
 
 func +- (left: Vector2D, right: Vector2D) -> Vector2D {
-    return Vector2D(x: left.x + right.x, y: left.y - right.y)
+return Vector2D(x: left.x + right.x, y: left.y - right.y)
 }
 
 let firstVector = Vector2D(x: 1.0, y: 2.0)
 let secondVector = Vector2D(x: 3.0, y: 4.0)
 let plusMinusVector = firstVector +- secondVector
+
+
+
+
 
 /*
 _ character is used for place hoder. it is used in place of a loop variable
@@ -719,8 +734,9 @@ func findStringIndex(array: [String], valueToFind: String) -> Int? {
     return nil
 }
 
-/*
+
 //Lets have the generic implementation
+/*
 func findIndex<T>(array: [T], valueToFind: T) -> Int?{
     for(index, value) in enumerate(array){
         if value == valueToFind{
@@ -977,6 +993,7 @@ func memoize<T: Hashable, U>( body: ( (T)->U, T )->U ) -> (T)->U {
     return result
 }
 
+/*
 let fibonacci = memoize {
     fibonacci, n in
     n < 2 ? Double(n) : fibonacci(n-1) + fibonacci(n-2)
@@ -987,7 +1004,7 @@ let fibonacci = memoize {
 let factorial = memoize { factorial, x in x == 0 ? 1 : x * factorial(x - 1) }
 let finalResult = factorial(3)
 
-
+*/
 
 
 
