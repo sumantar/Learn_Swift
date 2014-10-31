@@ -27,6 +27,10 @@ class ViewController: UIViewController {
     func display(){
         println("Hello display method!!!")
     }
+    
+    func display1(){
+        println("Hello display method!!!")
+    }
 
 }
 
