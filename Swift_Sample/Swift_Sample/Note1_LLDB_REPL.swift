@@ -29,20 +29,20 @@ This will run repl in command prompt
 :quit		=> quit repl
 
 Example:
-var my_variable = "this is a swift string”
+var my_variable = "this is a swift string"
 my_variable
-$R0: String = "this is a swift string”
+$R0: String = "this is a swift string"
 
-my_var: String = “Hello"
+my_var: String = "Hello"
 my_var
-$R1: String = “Hello"
+$R1: String = "Hello"
 
-var may_var1=“Hello1"
+var may_var1="Hello1"
 may_var1
-$R2: String = “Hello1"
+$R2: String = "Hello1"
 
 my_var
-$R3: String = “Hello"
+$R3: String = "Hello"
 
 */
 
