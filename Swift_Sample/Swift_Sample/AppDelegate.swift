@@ -44,6 +44,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func HelloWorld(){
         
     }
+    
+    func HelloWorld1(){
+        
+    }
 
 
 }
